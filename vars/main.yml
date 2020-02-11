@@ -5,3 +5,12 @@ controller_fqdn
 environment_name
 controller_auth_token
 certificate_name
+
+certificate_displayname
+certificate_description
+certificate_privateKey
+certificate_publicCert
+certificate_pkcs12_data
+certificate_password
+
+certificate_type

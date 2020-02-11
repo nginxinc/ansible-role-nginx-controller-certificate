@@ -9,9 +9,9 @@ Reading a certificate file and doing the substitution would be part of the calli
     },
     "desiredState": {
         "privateKey": "{{certificate_privateKey}}",
-        "password": "string",
+        "password": "{{certificate_password}}",
         "publicCert": "{{certificate_publicCert}}",
-        "data": "string",
+        "data": "{{certificate_pkcs12_data}}",
         "caCerts": [
             "{{ca_certificate}}"
         ],

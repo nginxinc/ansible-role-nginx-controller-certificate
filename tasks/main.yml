@@ -10,6 +10,7 @@
     - environment_name
     - controller_auth_token
     - certificate_name
+    - certificate_type
 
 - name: Build JSON payload
   template: src={{certificate}}.j2 dest={{certificate}}.json

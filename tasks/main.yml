@@ -1,2 +1,71 @@
 ---
 # tasks file for ansible-role-nginx-controller-certificate
+
+---
+- name: Fail if required variables are not defined
+  assert:
+    that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
+  with_items:
+    - controller_fqdn
+    - environment_name
+    - controller_auth_token
+    - certificate_name
+
+- name: Build JSON payload
+  template: src={{certificate}}.j2 dest={{certificate}}.json
+
+- name: form the certificate url
+  set_fact:
+    certificate_url: "https://{{controller_fqdn}}/{{api_version}}/services/environments/{{environment_name}}/certs/{{certificate_name}}"
+
+- name: upsert certificate (create if absent, change if present)
+  uri:
+   url: "{{ certificate_url }}"
+   method: "PUT"
+   body: "{{(lookup('file','{{certificate}}.json'))}}"
+   body_format: json
+   status_code:
+   - 200
+   return_content: yes
+   validate_certs: no
+  headers:
+    Cookie: "{{controller_auth_token}}"
+  register: certificate_status
+
+- name: show certificate status
+  debug: 
+    msg: "{{ certificate_status }}"
+
+# pause to give the system a moment to initiate the change
+- name: pause
+  pause:
+   seconds: 2
+
+- name: Confirm certificate is provisioned and not errored
+  uri:
+   url: "{{ certificate_url }}"
+   method: "GET"
+   body_format: json
+   status_code:
+   - 200
+   return_content: yes
+   validate_certs: no
+  headers:
+    Cookie: "{{ controller_auth_token }}"
+  register: certificate_status
+  # error handling needs work
+  until: (certificate_status is defined ) and
+         (( certificate_status.json.status.active != None ) and ( "PROVISIONED" in certificate_status.json.status.active.phase )) or
+         (( certificate_status.json.status.desired != None ) and ( "PROVISIONED" in certificate_status.json.status.desired.phase )))
+  retries: 85
+  delay: 10
+  # response behavior notes
+  #
+  #
+
+- name: show certificate details
+  debug: 
+    msg: "{{ certificate_status }}"
+
+- name: capture certificate reference
+  certificate_ref: certificate_status.foo

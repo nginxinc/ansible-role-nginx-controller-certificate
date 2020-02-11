@@ -1,0 +1,11 @@
+{
+    "metadata": {
+        "displayName": "{{certificate_displayname}}",
+        "description": "{{certificate_description}}"
+    },
+    "desiredState": {
+        "data": "MIIGoQIBAzCCBmcGCSqGSIb3DQEHAaCCBlgEggZUMIIGUDCCA08GCSqGSIb3DQEHBqCCA0AwggM8AgEAMIIDNQYJKoZIhvcNAQcBMBwGCiqGSIb3DQEMAQYwDgQIe7ZblBoEW3QCAggAgIIDCCgLEvzp9n6",
+        "password": "myPa$$w0rd",
+        "type": "PKCS12"
+    }
+}

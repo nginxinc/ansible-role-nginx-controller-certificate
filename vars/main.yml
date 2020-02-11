@@ -1,2 +1,7 @@
 ---
 # vars file for ansible-role-nginx-controller-certificate
+
+controller_fqdn
+environment_name
+controller_auth_token
+certificate_name

@@ -1,0 +1,11 @@
+{
+    "metadata": {
+        "name": "star.acmefinancial.net",
+        "displayName": "*.acmefinancial.net"
+    },
+    "desiredState": {
+        "privateKey": "/certs/www.example.com/example.key",
+        "publicCert": "/certs/www.example.com/example.crt",
+        "type": "REMOTE_FILE"
+    }
+}

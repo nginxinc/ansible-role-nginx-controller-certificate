@@ -1,0 +1,20 @@
+{# 
+The certificate bodies need to have "\n" in place of line feeds in order to meet JSON string formatting requirements.
+Reading a certificate file and doing the substitution would be part of the calling play.
+#}
+{
+    "metadata": {
+        "displayName": "{{certificate_displayname}}",
+        "description": "{{certificate_description}}"
+    },
+    "desiredState": {
+        "privateKey": "{{certificate_privateKey}}",
+        "password": "string",
+        "publicCert": "{{certificate_publicCert}}",
+        "data": "string",
+        "caCerts": [
+            "{{ca_certificate}}"
+        ],
+        "type": ["PEM", "PKCS12", "REMOTE_FILE"]
+    }
+}

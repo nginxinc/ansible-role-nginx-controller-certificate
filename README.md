@@ -1,38 +1,78 @@
-Role Name
+NGINX Controller Certificate
 =========
 
-A brief description of the role goes here.
+Upsert (create and update) certificates to NGINX Controller.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Required:
+controller_fqdn | the hostname or DNS of the NGINX Controller instance
+environment_name | the Environment the certificate is being managed within
+controller_auth_token | an authentication token for the NGINX Controller api (the Role nginx_controller_generate_token outputs this)
+certificate_name | the name of the certificate and keys in the provided Environment
+
+Optional:
+certificate_displayname | optional friendly display name
+certificate_description | optional description
+
+Combinations:
+certificate_type: PEM | PEM based certificate, key, CA certs
+certificate_privateKey | certificate private key formatted as single string, substituting '/n' for line breaks
+certificate_publicCert | certificate public cert formatted as single string, substituting '/n' for line breaks
+certificate_password | optional password for certificate
+ca_certificate | one or more CA certificates when necessary
+
+certificate_type: PKCS12 | PKCS12 formatted certificate
+certificate_pkcs12_data | contents of the PKCS12 formatted file as a string
+certificate_password | password of the certificate
+
+certificate_type: LOCAL_FILE | local files already present on the NGINX Plus instance
+certificate_privateKey | path to private key on the NGINX Plus instance file system
+certificate_publicCert | path to public cert on the NGINX Plus instance file system
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+- hosts: localhost
+  gather_facts: no
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+  tasks:
+  - include_role:
+      name: nginx_controller_generate_token
+    vars:
+      user_email: "user@example.com"
+      user_password: 'secure_password'
+      controller_fqdn: "controller.example.local"
+
+  - name: install the agent
+    include_role:
+      name: nginx_controller_certificate
+    vars:
+      controller_fqdn: "controller.example.local"
+      environment_name: "production-us-west"
+      # controller_auth_token: output by previous Role in example
+      certificate_name: "www.example.com"
+      certificate_displayname: "Root WWW Cert"
+      certificate_description: "A complete sentence"
+      certificate_privateKey: "contents of cert key as a string"
+      certificate_publicCert: "contents of cert as a string"
+      certificate_type: "PEM"
+```
 
 License
 -------
 
-BSD
+Apache-2.0
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+brianehlert

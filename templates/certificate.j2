@@ -16,12 +16,10 @@ Reading a certificate file and doing the substitution would be part of the calli
         "caCerts": [
             "{{ca_certificates}}"
         ]
-{% endif %}
-{% if certificate_type == "PKCS12" %}
+{% elif certificate_type == "PKCS12" %}
         "password": "{{certificate_password}}",
         "data": "{{certificate_pkcs12_data}}"
-{% endif %}
-{% if certificate_type == "LOCAL_FILE" %}
+{% elif certificate_type == "LOCAL_FILE" %}
         "privateKey": "{{certificate_privateKey}}",
         "publicCert": "{{certificate_publicCert}}"
 {% endif %}

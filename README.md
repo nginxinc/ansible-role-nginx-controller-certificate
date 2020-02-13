@@ -1,7 +1,7 @@
 NGINX Controller Certificate
 =========
 
-Upsert (create and update) certificates to NGINX Controller.
+Upsert (create and update) certificates to NGINX Controller for use with Gateways and Components.
 
 Requirements
 ------------

@@ -52,7 +52,7 @@ Example Playbook
       user_password: 'secure_password'
       controller_fqdn: "controller.example.local"
 
-  - name: install the agent
+  - name: create the certificate object
     include_role:
       name: nginx_controller_certificate
     vars:

@@ -9,7 +9,7 @@ Reading a certificate file and doing the substitution would be part of the calli
         "description": "{{certificate_description}}"
 {% if tags[0] is defined %}
         "tags": [
-{% for tag in gateway.tags %}
+{% for tag in tags %}
             "{{tag}}"{% if not loop.last %}, 
 {% endif %}
 {% endfor %}{{''}}

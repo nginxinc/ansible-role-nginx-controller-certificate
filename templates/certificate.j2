@@ -7,6 +7,14 @@ Reading a certificate file and doing the substitution would be part of the calli
         "name": "{{certificate_name}}",
         "displayName": "{{certificate_displayname}}",
         "description": "{{certificate_description}}"
+{% if tags[0] is defined %}
+        "tags": [
+{% for tag in gateway.tags %}
+            "{{tag}}"{% if not loop.last %}, 
+{% endif %}
+{% endfor %}{{''}}
+        ]
+{% endif %}
     },
     "desiredState": {
         "type": "{{certificate_type}}",

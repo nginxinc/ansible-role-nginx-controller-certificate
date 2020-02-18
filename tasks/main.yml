@@ -1,7 +1,6 @@
 ---
 # tasks file for ansible-role-nginx-controller-certificate
 
----
 - name: Fail if required variables are not defined
   assert:
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
@@ -13,7 +12,9 @@
     - certificate_type
 
 - name: Build JSON payload
-  template: src={{certificate}}.j2 dest={{certificate}}.json
+  template:
+    src: certificate.j2
+    dest: certificate.json
 
 - name: form the certificate url
   set_fact:
@@ -21,16 +22,17 @@
 
 - name: upsert certificate (create if absent, change if present)
   uri:
-   url: "{{ certificate_url }}"
-   method: "PUT"
-   body: "{{(lookup('file','{{certificate}}.json'))}}"
-   body_format: json
-   status_code:
-   - 200
-   return_content: yes
-   validate_certs: no
-  headers:
-    Cookie: "{{controller_auth_token}}"
+    url: "{{ certificate_url }}"
+    method: "PUT"
+    body: "{{(lookup('file','certificate.json'))}}"
+    body_format: json
+    status_code:
+    - 200
+    - 201
+    return_content: yes
+    validate_certs: no
+    headers:
+      Cookie: "{{controller_auth_token}}"
   register: certificate_status
 
 - name: show certificate status
@@ -44,29 +46,30 @@
 
 - name: Confirm certificate is provisioned and not errored
   uri:
-   url: "{{ certificate_url }}"
-   method: "GET"
-   body_format: json
-   status_code:
-   - 200
-   return_content: yes
-   validate_certs: no
-  headers:
-    Cookie: "{{ controller_auth_token }}"
+    url: "{{ certificate_url }}"
+    method: "GET"
+    body_format: json
+    status_code:
+    - 200
+    return_content: yes
+    validate_certs: no
+    headers:
+      Cookie: "{{ controller_auth_token }}"
   register: certificate_status
-  # error handling needs work
   until: (certificate_status is defined ) and
-         (( certificate_status.json.status.active != None ) and ( "PROVISIONED" in certificate_status.json.status.active.phase )) or
-         (( certificate_status.json.status.desired != None ) and ( "PROVISIONED" in certificate_status.json.status.desired.phase )))
-  retries: 85
-  delay: 10
-  # response behavior notes
-  #
-  #
+         ( certificate_status.json.currentStatus.state.selfConfigState.isConfigured == true )
+  retries: 10
+  delay: 2
+  failed_when: ( certificate_status.json.currentStatus.state.selfConfigState.isError == true )
 
-- name: show certificate details
-  debug: 
-    msg: "{{ certificate_status }}"
+# - name: show certificate details
+#   debug: 
+#     msg: "{{ certificate_status }}"
 
 - name: capture certificate reference
-  certificate_ref: certificate_status.foo
+  set_fact:
+    certificate_reference: "{{certificate_status.json.metadata.links.rel}}"
+
+- name: show certificate reference
+  debug: 
+    msg: "{{ certificate_reference }}"

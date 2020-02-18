@@ -24,7 +24,7 @@ certificate_type: PEM | PEM based certificate, key, CA certs
 certificate_privateKey | certificate private key formatted as single string, substituting '/n' for line breaks
 certificate_publicCert | certificate public cert formatted as single string, substituting '/n' for line breaks
 certificate_password | optional password for certificate
-ca_certificate | one or more CA certificates when necessary
+ca_certificates | one or more CA certificates when necessary
 
 certificate_type: PKCS12 | PKCS12 formatted certificate
 certificate_pkcs12_data | contents of the PKCS12 formatted file as a string

@@ -4,18 +4,26 @@ Reading a certificate file and doing the substitution would be part of the calli
 #}
 {
     "metadata": {
+        "name": "{{certificate_name}}",
         "displayName": "{{certificate_displayname}}",
         "description": "{{certificate_description}}"
     },
     "desiredState": {
-        "type": "{{certificate_type}}"
+        "type": "{{certificate_type}}",
 {% if certificate_type == "PEM" %}
         "privateKey": "{{certificate_privateKey}}",
-        "password": "{{certificate_password}}",
-        "publicCert": "{{certificate_publicCert}}",
-        "caCerts": [
-            "{{ca_certificates}}"
+        "publicCert": "{{certificate_publicCert}}"
+{% if certificate_password is defined %}
+        , "password": "{{certificate_password}}",
+{% endif %}
+{% if ca_certificates[0] is defined %}
+        , "caCerts": [
+{% for ca_certificate in ca_certificates %}
+            "{{ca_certificate}}"{% if not loop.last %},
+{% endif %}
+{% endfor %}{{""}}
         ]
+{% endif %}
 {% elif certificate_type == "PKCS12" %}
         "password": "{{certificate_password}}",
         "data": "{{certificate_pkcs12_data}}"

@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    # controller_fqdn: ""
+    # api_key: ""
+    # user_email: ""
+    # user_password: ""
+    #
+    # environment_name: ""
+    # certificate_name: ""
+    # certificate_displayname: "Root WWW Cert"
+    # certificate_description: "Certificate description"
+    # certificate_privateKey: ""
+    # certificate_publicCert: ""
+    # certificate_type: "PEM"
+
+  tasks:
+    - include_role:
+        name: ansible-role-nginx-controller-certificate

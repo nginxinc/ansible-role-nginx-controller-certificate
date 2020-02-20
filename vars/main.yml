@@ -1,19 +1,17 @@
 ---
-# vars file for ansible-role-nginx-controller-certificate
-
 # controller_fqdn:
-# environment_name: 
-# controller_auth_token: 
+# environment_name:
+# controller_auth_token:
 # certificate_name:
 # tags:
-# - tag1
-
-# certificate_displayname: 
-# certificate_description: 
+#   - tag1
+#
+# certificate_displayname:
+# certificate_description:
 # certificate_privateKey: 'single quote'
 # certificate_publicCert: 'single quote'
 # certificate_pkcs12_data: 'single quote'
 # certificate_password: 'single quote'
-# certificate_type: 
+# certificate_type:
 # ca_certificates:
-# - 'single quote'
+#   - 'single quote'

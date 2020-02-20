@@ -13,5 +13,3 @@
         "type": "PEM"
     }
 }
-
-# note the "/n" in place of line endings in order to format the JSON properly.

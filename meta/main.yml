@@ -1,6 +1,5 @@
 ---
 galaxy_info:
-  role_name: nginx_controller_certificate
   author: Brian Ehlert
   description: A role to upsert (create and update) certificates to NGINX Controller for use with Gateways and Components.
   company: F5 Networks, Inc.

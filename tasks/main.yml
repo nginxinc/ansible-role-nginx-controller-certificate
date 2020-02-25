@@ -6,23 +6,18 @@
     - controller_fqdn
     - environment_name
     - controller_auth_token
-    - certificate_name
-    - certificate_type
-
-- name: Build JSON payload
-  template:
-    src: certificate.j2
-    dest: certificate.json
+    - certificate.metadata.name
+    - certificate.desiredState.type
 
 - name: Form the certificate API url
   set_fact:
-    certificate_url: "https://{{ controller_fqdn }}/{{ api_version }}/services/environments/{{ environment_name }}/certs/{{ certificate_name }}"
+    certificate_url: "https://{{ controller_fqdn }}/{{ api_version }}/services/environments/{{ environment_name }}/certs/{{ certificate.metadata.name }}"
 
 - name: Upsert certificate (create if absent, change if present)
   uri:
     url: "{{ certificate_url }}"
     method: "PUT"
-    body: "{{ (lookup('file','certificate.json')) }}"
+    body: "{{ certificate }}"
     body_format: json
     status_code:
       - 200

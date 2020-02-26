@@ -4,7 +4,7 @@
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
   loop:
     - controller_fqdn
-    - environment_name
+    - environmentName
     - controller_auth_token
     - certificate.metadata.name
     - certificate.desiredState.type

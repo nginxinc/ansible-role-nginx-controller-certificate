@@ -15,47 +15,17 @@ Role Variables
 
 `controller_fqdn` - The hostname or DNS of the NGINX Controller instance.
 
-`environment_name` - The Environment the certificate is being managed within.
-
 `controller_auth_token` - An authentication token for the NGINX Controller API (the nginx_controller_generate_token role outputs this).
 
-`certificate_name` - The name of the certificate and keys in the provided environment.
+`environmentName` - The Environment the certificate is being managed within.
 
-### Optional Variables
+`certificate.metadata.name` - Name of the certificate
 
-`certificate_displayname` - Optional friendly display name.
-
-`certificate_description` - Optional description.
+`certificate.desiredState.type` - Type of the certificate. Can be PEM | PKCS12 | RemoteFile.
 
 ### Template Variables
 
-#### PEM Certificates
-
-`certificate_type: PEM` - PEM based certificate, key, CA certs
-
-`certificate_privateKey` - Certificate private key formatted as a single string, substituting '/n' for line breaks
-
-`certificate_publicCert` - Certificate public cert formatted as a single string, substituting '/n' for line breaks
-
-`certificate_password` - Optional password for the certificate
-
-`ca_certificates` - One or more CA certificates if necessary
-
-#### PKCS12 Certificates
-
-`certificate_type: PKCS12` - PKCS12 formatted certificate
-
-`certificate_pkcs12_data` - Contents of the PKCS12 formatted file as a string
-
-`certificate_password` - Certificate password
-
-#### LOCAL_FILE Certificates
-
-`certificate_type: LOCAL_FILE` - Local files already present on the NGINX Plus instance
-
-`certificate_privateKey` - Path to the private key on the NGINX Plus instance file system
-
-`certificate_publicCert` - Path to the public cert on the NGINX Plus instance file system
+This role has multiple template related variables. The descriptions and defaults for all these variables can be found in **[vars/main.yml](./vars/main.yml)**
 
 Dependencies
 ------------
@@ -63,7 +33,7 @@ Dependencies
 Example Playbook
 ----------------
 
-To use this role you can create a playbook such as the following:
+To use this role you can create a playbook such as the following (let's name it `nginx_controller_certificate.yaml` for the purposes of this example).
 
 ```yaml
 - hosts: localhost
@@ -82,16 +52,25 @@ To use this role you can create a playbook such as the following:
       include_role:
         name: nginxinc.nginx-controller-certificate
       vars:
-        controller_fqdn: "controller.mydomain.com"
-        environment_name: "production-us-west"
         # controller_auth_token: output by previous role in example
-        certificate_name: "www.example.com"
-        certificate_displayname: "Root WWW Cert"
-        certificate_description: "A complete sentence"
-        certificate_privateKey: "contents of cert key as a string"
-        certificate_publicCert: "contents of cert as a string"
-        certificate_type: "PEM"
+        controller_fqdn: "controller.mydomain.com"
+        environmentName: "production-us-west"
+        certificate:
+          metadata:
+            name: "www.example.com"
+            displayName: "Root WWW Cert"
+            description: "A certificate"
+          desiredState:
+            type: "PEM"
+            privateKey: "Contents of cert key as a string"
+            publicCert: "Contents of cert as a string"
 ```
+
+You can then run `ansible-playbook nginx_controller_certificate.yaml` to execute the playbook.
+
+Alternatively, you can also pass/override any variables at run time using the `--extra-vars` or `-e` flag like so `ansible-playbook nginx_controller_certificate.yaml -e "user_email=brian@example.com user_password=notsecure controller_fqdn=controller.example.local"`
+
+You can also pass/override any variables by passing a `yaml` file containing any number of variables like so `ansible-playbook nginx_controller_certificate.yaml -e "@nginx_controller_certificate_vars.yaml"`
 
 License
 -------

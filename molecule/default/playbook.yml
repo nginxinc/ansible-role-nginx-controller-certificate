@@ -8,13 +8,16 @@
     # user_email: ""
     # user_password: ""
     #
-    # environment_name: ""
-    # certificate_name: ""
-    # certificate_displayname: "Root WWW Cert"
-    # certificate_description: "Certificate description"
-    # certificate_privateKey: ""
-    # certificate_publicCert: ""
-    # certificate_type: "PEM"
+    # environmentName: ""
+    # certificate:
+    #   metadata:
+    #     name: "www.example.com"
+    #     displayName: "Root WWW Cert"
+    #     description: "A certificate"
+    #   desiredState:
+    #     type: "PEM"
+    #     privateKey: ""
+    #     publicCert: ""
 
   tasks:
     - include_role:

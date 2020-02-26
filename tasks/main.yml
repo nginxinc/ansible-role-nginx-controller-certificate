@@ -11,7 +11,7 @@
 
 - name: Form the certificate API url
   set_fact:
-    certificate_url: "https://{{ controller_fqdn }}/{{ api_version }}/services/environments/{{ environment_name }}/certs/{{ certificate.metadata.name }}"
+    certificate_url: "https://{{ controller_fqdn }}/{{ api_version }}/services/environments/{{ environmentName }}/certs/{{ certificate.metadata.name }}"
 
 - name: Upsert certificate (create if absent, change if present)
   uri:
@@ -49,10 +49,10 @@
       Cookie: "{{ controller_auth_token }}"
   register: certificate_status
   until: (certificate_status is defined) and
-         (certificate_status.json.currentStatus.state.selfConfigState.isConfigured)
+         (certificate_status.json.currentStatus.state.selfConfigState.isConfigured | bool)
   retries: 10
   delay: 2
-  failed_when: certificate_status.json.currentStatus.state.selfConfigState.isError
+  failed_when: certificate_status.json.currentStatus.state.selfConfigState.isError | bool
 
 - name: Capture certificate reference
   set_fact:

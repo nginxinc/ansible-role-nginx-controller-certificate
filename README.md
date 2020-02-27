@@ -62,8 +62,10 @@ To use this role you can create a playbook such as the following (let's name it 
             description: "A certificate"
           desiredState:
             type: "PEM"
-            privateKey: "Contents of cert key as a string"
-            publicCert: "Contents of cert as a string"
+            privateKey: |-
+              # Contents of cert key as a multiline, unquoted string
+            publicCert: |-
+              # Contents of cert as a multiline, unquoted string
 ```
 
 You can then run `ansible-playbook nginx_controller_certificate.yaml` to execute the playbook.

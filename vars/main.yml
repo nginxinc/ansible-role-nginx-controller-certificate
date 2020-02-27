@@ -5,11 +5,14 @@
 # controller_auth_token:  Authentication token for NGINX Controller
 # environmentName:  # Environment the gateway is associated with
 
-## Notes:
+## NOTES:
 ## PEM: Because JSON does not support multi-line strings, you must replace binary line feeds with ASCII line feeds (`\n`). The private key data will be redacted in the response for all get and list requests.
 ##   example: '-----BEGIN PRIVATE KEY-----\n MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALSQBtRafNJtTqN0\n
 ##             <EXAMPLE_SNIPPED> nYiZq6TZUsHjfG2R9PlK6jsvno9O6amN96Al6ZSTTDjhr4VU7/RJ0p/cisiCboCX\n
 ##             4cCq6lFKpIpeZJI=\n -----END PRIVATE KEY-----'
+##   Ansible YAML to JSON conversion handles this for you. 
+##   Only if you keep the pipe '|' in the example position after defining the key.
+##   Also be sure to mind the indenting.
 ## RemoteFile: The path to the certificate bundle file. The file must contain the public certificate and may contain additional intermediate certificates.
 ##   example: /certs/www.example.com/example.crt
 
@@ -23,9 +26,18 @@
 #       - tag2
 #   desiredState:
 #     type:  # REQUIRED: PEM | PKCS12 | RemoteFile
-#     privateKey:  # PEM, RemoteFile; The private key used to sign the public certificate.
-#     publicCert:  # PEM, RemoteFile; The end-entity certificate, in PEM format.
+#     privateKey: |  # PEM, RemoteFile; The private key used to sign the public certificate.
+#       -----BEGIN PRIVATE KEY-----
+#        -----END PRIVATE KEY-----
+#     publicCert: |  # PEM, RemoteFile; The end-entity certificate, in PEM format.
+#       -----BEGIN CERTIFICATE-----
+#       -----END CERTIFICATE-----
 #     password:  # PEM; PKCS12; The passphrase to use to decrypt the private key. Required if the private key is encrypted.
 #     caCerts:  # An optional list of intermediate certificates in PEM format that are used to validate the public certificate.
-#       - '-----BEGIN PRIVATE KEY-----\n MIICdJI=\n -----END PRIVATE KEY-----'
+#       - | 
+#         -----BEGIN PRIVATE KEY-----
+#          -----END PRIVATE KEY-----
+#       - |
+#         -----BEGIN PRIVATE KEY-----
+#          -----END PRIVATE KEY-----
 #     data:  # PKCS12; A base-64-encoded string that contains a private key, a public certificate, and, optionally, other intermediate certificates.

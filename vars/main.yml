@@ -17,6 +17,7 @@
 ##   example: /certs/www.example.com/example.crt
 
 # certificate:
+#   environmentName: # REQUIRED:  The environment where this certificate is used.
 #   metadata:
 #     name:  # REQUIRED: name of the certificate
 #     displayName:  # Friendly display name

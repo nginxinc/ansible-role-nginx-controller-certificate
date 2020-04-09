@@ -4,8 +4,8 @@
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
   loop:
     - controller.fqdn
-    - environmentName
     - controller.auth_token
+    - certificate.environmentName
     - certificate.metadata.name
     - certificate.desiredState.type
 
@@ -22,6 +22,7 @@
     status_code:
       - 200
       - 201
+      - 202
     return_content: yes
     validate_certs: "{{ controller.validate_certs | default(false) }}"
     headers:

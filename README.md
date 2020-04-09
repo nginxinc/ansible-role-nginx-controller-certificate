@@ -54,8 +54,10 @@ To use this role you can create a playbook such as the following (let's name it 
       include_role:
         name: nginxinc.nginx-controller-certificate
       vars:
-        environmentName: "production-us-west"
+        # controller_auth_token: output by previous role in example
+        controller_fqdn: "controller.mydomain.com"
         certificate:
+          environmentName: "production-us-west"
           metadata:
             name: "www.example.com"
             displayName: "Root WWW Cert"

@@ -13,9 +13,9 @@ Role Variables
 
 ### Required Variables
 
-`controller_fqdn` - The hostname or DNS of the NGINX Controller instance.
+`controller.fqdn` - The hostname or DNS of the NGINX Controller instance.
 
-`controller_auth_token` - An authentication token for the NGINX Controller API (the nginx_controller_generate_token role outputs this).
+`controller.auth_token` - An authentication token for the NGINX Controller API (the nginx_controller_generate_token role outputs this).
 
 `environmentName` - The Environment the certificate is being managed within.
 
@@ -38,15 +38,17 @@ To use this role you can create a playbook such as the following (let's name it 
 ```yaml
 - hosts: localhost
   gather_facts: no
+  vars:
+    controller:
+      user_email: "user@example.com"
+      user_password: "mySecurePassword"
+      fqdn: "controller.mydomain.com"
+      validate_certs: false
 
   tasks:
     - name: Retrieve the NGINX Controller auth token
       include_role:
         name: nginxinc.nginx-controller-generate-token
-      vars:
-        user_email: "user@example.com"
-        user_password: "mySecurePassword"
-        controller_fqdn: "controller.mydomain.com"
 
     - name: Create the certificate object
       include_role:
@@ -70,7 +72,7 @@ To use this role you can create a playbook such as the following (let's name it 
 
 You can then run `ansible-playbook nginx_controller_certificate.yaml` to execute the playbook.
 
-Alternatively, you can also pass/override any variables at run time using the `--extra-vars` or `-e` flag like so `ansible-playbook nginx_controller_certificate.yaml -e "user_email=brian@example.com user_password=notsecure controller_fqdn=controller.example.local"`
+Alternatively, you can also pass/override any variables at run time using the `--extra-vars` or `-e` flag like so `ansible-playbook nginx_controller_certificate.yaml -e '{"controller":{ "user_email":"user@company.com","user_password":"notsecure", "fqdn": "controller.example.local", "validate_certs":false }}'`
 
 You can also pass/override any variables by passing a `yaml` file containing any number of variables like so `ansible-playbook nginx_controller_certificate.yaml -e "@nginx_controller_certificate_vars.yaml"`
 
@@ -85,5 +87,7 @@ Author Information
 [Brian Ehlert](https://github.com/brianehlert)
 
 [Alessandro Fael Garcia](https://github.com/alessfg)
+
+[Daniel Edgar](https://github.com/aknot242)
 
 &copy; [NGINX, Inc.](https://www.nginx.com/) 2020

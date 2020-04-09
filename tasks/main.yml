@@ -3,15 +3,15 @@
   assert:
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
   loop:
-    - controller_fqdn
-    - controller_auth_token
+    - controller.fqdn
+    - controller.auth_token
     - certificate.environmentName
     - certificate.metadata.name
     - certificate.desiredState.type
 
 - name: Form the certificate API url
   set_fact:
-    certificate_url: "https://{{ controller_fqdn }}/{{ api_version }}/services/environments/{{ environmentName }}/certs/{{ certificate.metadata.name }}"
+    certificate_url: "https://{{ controller.fqdn }}/{{ api_version }}/services/environments/{{ environmentName }}/certs/{{ certificate.metadata.name }}"
 
 - name: Upsert certificate (create if absent, change if present)
   uri:
@@ -24,9 +24,9 @@
       - 201
       - 202
     return_content: yes
-    validate_certs: no
+    validate_certs: "{{ controller.validate_certs | default(false) }}"
     headers:
-      Cookie: "{{ controller_auth_token }}"
+      Cookie: "{{ controller.auth_token }}"
   register: certificate_status
 
 - name: Show certificate status
@@ -45,9 +45,9 @@
     status_code:
       - 200
     return_content: yes
-    validate_certs: no
+    validate_certs: "{{ controller.validate_certs | default(false) }}"
     headers:
-      Cookie: "{{ controller_auth_token }}"
+      Cookie: "{{ controller.auth_token }}"
   register: certificate_status
   until: (certificate_status is defined) and
          (certificate_status.json.currentStatus.state.selfConfigState.isConfigured | bool)

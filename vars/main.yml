@@ -1,10 +1,9 @@
 ---
 ## All the below variables are REQUIRED
 
-# controller:
-#   fqdn:  # FQDN of the NGINX Controller instance
-#   auth_token:  Authentication token for NGINX Controller
-# environmentName:  # Environment the gateway is associated with
+# nginx_controller_fqdn:  # FQDN of the NGINX Controller instance
+# nginx_controller_auth_token:  Authentication token for NGINX Controller
+# nginx_controller_environmentName:  # Environment the certificate is associated with
 
 ## NOTES:
 ## PEM: Because JSON does not support multi-line strings, you must replace binary line feeds with ASCII line feeds (`\n`). The private key data will be redacted in the response for all get and list requests.
@@ -17,7 +16,7 @@
 ## RemoteFile: The path to the certificate bundle file. The file must contain the public certificate and may contain additional intermediate certificates.
 ##   example: /certs/www.example.com/example.crt
 
-# certificate:
+# nginx_controller_certificate:
 #   environmentName: # REQUIRED:  The environment where this certificate is used.
 #   metadata:
 #     name:  # REQUIRED: name of the certificate

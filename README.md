@@ -39,25 +39,23 @@ To use this role you can create a playbook such as the following (let's name it 
 - hosts: localhost
   gather_facts: no
   vars:
-    controller:
-      user_email: "user@example.com"
-      user_password: "mySecurePassword"
-      fqdn: "controller.mydomain.com"
-      validate_certs: false
+    nginx_controller_user_email: "user@example.com"
+    nginx_controller_user_password: "mySecurePassword"
+    nginx_controller_fqdn: "controller.mydomain.com"
+    nginx_controller_validate_certs: false
 
   tasks:
     - name: Retrieve the NGINX Controller auth token
       include_role:
-        name: nginxinc.nginx-controller-generate-token
+        name: nginxinc.nginx_controller_generate_token
 
     - name: Create the certificate object
       include_role:
-        name: nginxinc.nginx-controller-certificate
+        name: nginxinc.nginx_controller_certificate
       vars:
-        # controller_auth_token: output by previous role in example
-        controller_fqdn: "controller.mydomain.com"
-        certificate:
-          environmentName: "production-us-west"
+        # nginx_controller_auth_token: output by previous role in example
+        nginx_controller_environmentName: "production-us-west"
+        nginx_controller_certificate:
           metadata:
             name: "www.example.com"
             displayName: "Root WWW Cert"

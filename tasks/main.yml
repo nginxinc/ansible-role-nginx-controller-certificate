@@ -11,8 +11,7 @@
 
 - name: Form the certificate API url
   set_fact:
-    nginx_controller_certificate_url: >-
-      "https://{{ nginx_controller_fqdn }}/{{ nginx_controller_api_version }}/services/environments/{{ nginx_controller_environmentName }}/certs/{{ nginx_controller_certificate.metadata.name }}"
+    nginx_controller_certificate_url: "https://{{ nginx_controller_fqdn }}/{{ nginx_controller_api_version }}/services/environments/{{ nginx_controller_environmentName }}/certs/{{ nginx_controller_certificate.metadata.name }}"
 
 - name: Upsert certificate (create if absent, change if present)
   uri:

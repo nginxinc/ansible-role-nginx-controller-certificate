@@ -3,6 +3,8 @@ NGINX Controller Certificate
 
 Upsert (create and update) certificates to NGINX Controller for use with Gateways and Components.
 
+Formatting certificates in YAML is not always straightforward.  Please see /files for additional examples.
+
 Requirements
 ------------
 

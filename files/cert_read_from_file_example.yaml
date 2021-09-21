@@ -2,13 +2,13 @@
 nginx_controller_environmentName: "demo"
 nginx_controller_certificate:
   metadata:
-    name:  "sports"
-    displayName:  "Sports demo Certificate"
-    description:  "sports api server certificate"
+    name: "sports"
+    displayName: "Sports demo Certificate"
+    description: "sports api server certificate"
     tags:
-    - "new"
+      - "new"
   desiredState:
-    type:  PEM
+    type: PEM
     privateKey: |-
       {{ lookup('file', "sports.key") }}
     publicCert: |-

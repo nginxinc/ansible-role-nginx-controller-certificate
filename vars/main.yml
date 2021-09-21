@@ -10,7 +10,7 @@
 ##   example: '-----BEGIN PRIVATE KEY-----\n MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALSQBtRafNJtTqN0\n
 ##             <EXAMPLE_SNIPPED> nYiZq6TZUsHjfG2R9PlK6jsvno9O6amN96Al6ZSTTDjhr4VU7/RJ0p/cisiCboCX\n
 ##             4cCq6lFKpIpeZJI=\n -----END PRIVATE KEY-----'
-##   Ansible YAML to JSON conversion handles this for you. 
+##   Ansible YAML to JSON conversion handles this for you.
 ##   Only if you keep the pipe minus '|-' in the example position after defining the key.
 ##   Also be sure to mind the indenting.
 ## RemoteFile: The path to the certificate bundle file. The file must contain the public certificate and may contain additional intermediate certificates.

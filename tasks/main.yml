@@ -23,7 +23,7 @@
       - 200
       - 201
       - 202
-    return_content: yes
+    return_content: true
     validate_certs: "{{ nginx_controller_validate_certs | default(false) }}"
     headers:
       Cookie: "{{ nginx_controller_auth_token }}"
@@ -44,7 +44,7 @@
     body_format: json
     status_code:
       - 200
-    return_content: yes
+    return_content: true
     validate_certs: "{{ nginx_controller_validate_certs | default(false) }}"
     headers:
       Cookie: "{{ nginx_controller_auth_token }}"

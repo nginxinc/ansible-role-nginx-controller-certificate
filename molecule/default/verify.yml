@@ -3,7 +3,7 @@
   hosts: mock_server
   connection: local
   tasks:
-    - name: Check that the certificate request was sent to the mock controller exactly twice per docker instance (includes the idempotence test)
+    - name: Check that the certificate request was sent to the mock controller exactly 4 times per docker instance (includes the idempotence test)
       uri:
         url: "https://{{ inventory_hostname }}:1080/mockserver/verify"
         method: PUT

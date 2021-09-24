@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: controllers
+
+  vars:
+    nginx_controller_fqdn: mock-server.molecule-test:1080
+    nginx_controller_auth_token: "ABC123"
+    nginx_controller_environmentName: "production"
+    nginx_controller_certificate:
+      metadata:
+        name: "www.example.com"
+        displayName: "Root WWW Cert"
+        description: "A certificate"
+      desiredState:
+        type: "PEM"
+        privateKey: ""
+        publicCert: ""
+
+  tasks:
+    - name: Call Certificate Role
+      include_role:
+        name: ansible-role-nginx-controller-certificate

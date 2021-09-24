@@ -1,8 +1,9 @@
-# ansible-playbook nginx_controller_certificate.yaml -e "nginx_controller_user_email=name@example.com nginx_controller_user_password=P@ssword nginx_controller_fqdn=ip.us-east-2.compute.internal" 
+---
+# ansible-playbook nginx_controller_certificate.yaml -e "nginx_controller_user_email=name@example.com nginx_controller_user_password=P@ssword nginx_controller_fqdn=ip.us-east-2.compute.internal"
 # ansible-playbook nginx_controller_certificate.yaml -e "@nginx_install_controller_vars.yaml"
 
 - hosts: localhost
-  gather_facts: no
+  gather_facts: false
   collections:
   - nginxinc.nginx_controller
 
@@ -17,11 +18,11 @@
       nginx_controller_environmentName: "production-us-west"
       nginx_controller_certificate:
         metadata:
-          name:  "star.acmefinancial.net"
-          displayName:  "Root WWW Cert"
-          description:  "A complete sentence description to that not useful."
+          name: "star.acmefinancial.net"
+          displayName: "Root WWW Cert"
+          description: "A complete sentence description to that not useful."
         desiredState:
-          type:  PEM
+          type: PEM
           privateKey: |-
             -----BEGIN RSA PRIVATE KEY-----
             MIIEowIBAAKCAQEAtx3/EZcYRGGb1VAzLf0dWIZ4VwhkoXIQrvEaPt6uWQgJ5gHo

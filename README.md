@@ -1,6 +1,8 @@
 NGINX Controller Certificate
 ============================
 
+# This repository has been archived. There will likely be no further development on the project and security vulnerabilities may be unaddressed.
+
 Upsert (create and update) certificates to NGINX Controller for use with Gateways and Components.
 
 Formatting certificates in YAML is not always straightforward.  Please see /files for additional examples.
